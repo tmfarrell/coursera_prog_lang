@@ -1,0 +1,38 @@
+(* Assignment #1:    
+ * 
+ * Tim Farrell, tmf@bu.edu 
+ * Programming Lang (Coursera/ UofW), 2013 
+ * 150607
+ *)
+
+fun is_older (this_date : int*int*int, that_date : int*int*int) =
+  if   (#1 this_date) <> (#1 that_date)
+  then (#1 this_date)  > (#1 that_date)  
+  else (if   (#2 this_date) <> (#2 that_date)
+	then (#2 this_date)  > (#2 that_date)
+	else (#3 this_date)  > (#3 that_date))
+
+	   
+fun number_in_month (dates : (int*int*int) list, month : int) =
+  if null dates
+  then 0
+  else (if #2 (hd dates) = month then 1 else 0) + number_in_month(tl dates, month)
+
+fun number_in_months (dates : (int*int*int) list, months: int list) =
+  if null dates
+  then 0
+  else number_in_month(hd dates, hd months) + number_in_months(tl dates, tl months)
+
+fun dates_in_month (dates : (int*int*int) list, month int) =
+  if null dates
+  then []
+  else (if #2 (hd dates) = month
+	then hd dates :: dates_in_month(tl dates, month)
+	else dates_in_month(tl dates, month))
+
+fun dates_in_months (dates : (int*int*int) list, months : int list) =
+  if null dates
+  then []
+  else dates_in_month (dates, hd months) @ dates_in_months(dates, tl months)
+
+fun get_nth (
